@@ -1,19 +1,19 @@
-Votre Assistant de Prédiction de Désabonnement Client
-C'est quoi ce projet ?
+# Votre Assistant de Prédiction de Désabonnement Client
+## C'est quoi ce projet ?
 Imaginez pouvoir anticiper quels clients risquent de ne plus utiliser vos services. Ce projet, c'est exactement ça ! C'est une petite application web conçue pour vous aider à prédire le désabonnement (ou "churn") de vos clients.
 
 En clair, vous entrez quelques informations clés sur un client, et notre intelligence artificielle (IA) estime la probabilité qu'il vous quitte. C'est votre "boule de cristal" pour agir avant qu'il ne soit trop tard !
 
-Qu'est-ce que ça fait concrètement ?
+## Qu'est-ce que ça fait concrètement ?
 Interface Simple et Claire : Une page web intuitive avec un formulaire facile à remplir.
 
-Prédiction Intelligente : Un modèle d'IA puissant analyse les données que vous fournissez.
+- Prédiction Intelligente : Un modèle d'IA puissant analyse les données que vous fournissez.
 
-Résultat Immédiat et Visuel : Une fenêtre pop-up apparaît avec un message clair (par exemple, "forte probabilité de désabonnement") et un pourcentage précis.
+- Résultat Immédiat et Visuel : Une fenêtre pop-up apparaît avec un message clair (par exemple, "forte probabilité de désabonnement") et un pourcentage précis.
 
-Design Agréable : L'application est conçue pour être visuellement plaisante et facile à utiliser.
+- Design Agréable : L'application est conçue pour être visuellement plaisante et facile à utiliser.
 
-Comment ça marche (pour les curieux) ?
+## Comment ça marche (pour les curieux) ?
 Votre application fonctionne comme un mini-site web sur votre ordinateur. Elle est composée de :
 
 app.py : C'est le cerveau en Python qui gère toute la logique et les calculs.
@@ -103,13 +103,13 @@ pyinstaller app.py --name "ChurnPredictorApp" --onefile --add-data "templates;te
 
 Un fichier ChurnPredictorApp.exe sera créé dans un dossier nommé dist/ à l'intérieur de votre projet, prêt à être exécuté !
 
-Contribuer au projet
+## Contribuer au projet
 Vous avez des idées pour améliorer cet assistant, ou vous souhaitez corriger un bug ? C'est super ! N'hésitez pas à proposer vos changements.
 
 Licence
 Ce projet est sous licence MIT.
 
-Contact
+## Contact
 Pour toute question ou suggestion, n'hésitez pas à me contacter :
 
 Nom : Dorian DIKOUME
