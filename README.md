@@ -1,45 +1,45 @@
 Votre Assistant de Prédiction de Désabonnement Client
 C'est quoi ce projet ?
-Imaginez que vous puissiez savoir à l'avance quels clients risquent de vous quitter. Ce projet, c'est exactement ça ! C'est une petite application web qui vous aide à prédire le désabonnement (ou "churn") de vos clients.
+Imaginez pouvoir anticiper quels clients risquent de ne plus utiliser vos services. Ce projet, c'est exactement ça ! C'est une petite application web conçue pour vous aider à prédire le désabonnement (ou "churn") de vos clients.
 
-En gros, vous entrez quelques informations sur un client, et l'application utilise une intelligence artificielle pour estimer s'il y a un risque qu'il parte. L'idée est de vous donner une "boule de cristal" pour agir avant qu'il ne soit trop tard !
+En clair, vous entrez quelques informations clés sur un client, et notre intelligence artificielle (IA) estime la probabilité qu'il vous quitte. C'est votre "boule de cristal" pour agir avant qu'il ne soit trop tard !
 
 Qu'est-ce que ça fait concrètement ?
-Facile à utiliser : Une page simple avec un formulaire où vous remplissez les infos du client.
+Interface Simple et Claire : Une page web intuitive avec un formulaire facile à remplir.
 
-Prédiction Intelligente : Derrière, un modèle d'intelligence artificielle (IA) analyse les données.
+Prédiction Intelligente : Un modèle d'IA puissant analyse les données que vous fournissez.
 
-Résultat Clair : Une petite fenêtre apparaît avec un message simple : "forte probabilité de désabonnement" (en rouge) ou "faible probabilité" (en vert), avec un pourcentage pour mieux comprendre.
+Résultat Immédiat et Visuel : Une fenêtre pop-up apparaît avec un message clair (par exemple, "forte probabilité de désabonnement") et un pourcentage précis.
 
-Joli Design : L'application est conçue pour être agréable à regarder et facile à naviguer.
+Design Agréable : L'application est conçue pour être visuellement plaisante et facile à utiliser.
 
 Comment ça marche (pour les curieux) ?
-L'application est comme un petit site web sur votre ordinateur. Elle est composée de :
+Votre application fonctionne comme un mini-site web sur votre ordinateur. Elle est composée de :
 
-app.py : C'est le "cerveau" en Python qui fait les calculs et gère la page.
+app.py : C'est le cerveau en Python qui gère toute la logique et les calculs.
 
-templates/index.html : C'est la page web que vous voyez, avec le formulaire et la pop-up.
+templates/index.html : C'est la page web que vous voyez et avec laquelle vous interagissez.
 
 model_5_features.pkl et threshold_5_features.pkl : Ce sont les "connaissances" de l'IA, des fichiers spéciaux qui contiennent le modèle entraîné à prédire le churn.
 
-Les outils utilisés (la "boîte à outils")
-Ce projet a été créé avec :
+Les outils utilisés (la "boîte à outils" du projet)
+Ce projet a été développé avec :
 
 Python : Le langage de programmation principal.
 
-Flask : Un outil Python pour créer facilement des applications web.
+Flask : Un micro-framework web qui sert de "colle" entre l'IA et l'interface.
 
-Scikit-learn & LightGBM : Des bibliothèques Python pour l'intelligence artificielle et la création du modèle de prédiction.
+Scikit-learn & LightGBM : Des bibliothèques Python essentielles pour l'entraînement et l'utilisation de l'intelligence artificielle.
 
-HTML, CSS, JavaScript : Les langages pour créer l'interface web que vous utilisez.
+HTML, CSS, JavaScript : Les langages standards pour créer l'interface web (structure, style, interactivité).
 
-PyInstaller : Un outil magique pour transformer l'application en un fichier .exe que vous pouvez lancer sans installer Python.
+PyInstaller : Un outil génial pour transformer l'application en un fichier .exe autonome.
 
-Git & GitHub : Pour gérer le code et le partager en ligne.
+Git & GitHub : Pour gérer les versions du code et le partager en ligne.
 
-Comment l'utiliser sur votre ordinateur (pour les débutants)
-Ce qu'il vous faut (les "ingrédients")
-Python 3.12 : Installez-le depuis python.org et assurez-vous de cocher "Add Python to PATH" pendant l'installation.
+Comment l'utiliser sur votre ordinateur (Guide rapide pour débutants)
+Ce qu'il vous faut (les "ingrédients" de base)
+Python 3.12 : Téléchargez-le depuis python.org. Important : Cochez bien "Add Python to PATH" pendant l'installation.
 
 Git : Installez-le depuis git-scm.com/downloads.
 
@@ -52,7 +52,7 @@ cd Churn-Prediction-App
 (Si vous avez renommé le dossier localement, adaptez cd Churn-Prediction-App en cd NomDeVotreDossier)
 
 2. Préparez l'environnement (votre "espace de travail" Python)
-C'est important pour que l'application ait tous ses outils.
+C'est une étape cruciale pour que l'application ait tous ses outils, sans interférer avec d'autres projets Python.
 
 # Crée l'espace de travail virtuel
 python -m venv .venv
@@ -60,15 +60,15 @@ python -m venv .venv
 # Active cet espace de travail (pour PowerShell)
 . .\.venv\Scripts\Activate.ps1
 
-Votre terminal devrait maintenant afficher (.venv) au début de chaque ligne.
+Votre terminal devrait maintenant afficher (.venv) au début de chaque ligne, confirmant que l'environnement est actif.
 
 3. Installez les outils nécessaires
-Avec l'espace de travail activé, installez les outils de l'IA :
+Avec l'espace de travail activé, installez toutes les bibliothèques Python requises :
 
 pip install Flask numpy scikit-learn lightgbm
 
 4. Lancez l'application !
-Assurez-vous d'être dans le dossier Churn-Prediction-App (là où se trouve app.py) et que (.venv) est toujours affiché.
+Assurez-vous d'être dans le dossier Churn-Prediction-App (là où se trouve app.py) et que (.venv) est toujours affiché dans votre terminal.
 
 # Dites à Python où est l'application principale
 $env:FLASK_APP = "app.py"
@@ -76,22 +76,22 @@ $env:FLASK_APP = "app.py"
 # Lancez l'application
 flask run
 
-Une adresse web (comme http://127.0.0.1:5000/) apparaîtra. Copiez-la et collez-la dans votre navigateur web.
+Une adresse web (comme http://127.0.0.1:5000/) apparaîtra dans votre terminal. Copiez-la et collez-la dans votre navigateur web préféré.
 
-Comment ça marche (l'application)
+Comment ça marche (l'application en action)
 Ouvrez l'adresse web dans votre navigateur.
 
-Remplissez les quelques champs du formulaire avec les informations du client.
+Remplissez les quelques champs du formulaire avec les informations du client que vous souhaitez analyser.
 
-Cliquez sur "Prédire le Désabonnement".
+Cliquez sur le bouton "Prédire le Désabonnement".
 
-Une petite fenêtre apparaîtra avec la prédiction de l'IA !
+Une petite fenêtre (pop-up) apparaîtra avec la prédiction de l'IA !
 
 Le Cœur de l'IA (pour ceux qui veulent en savoir plus)
-L'intelligence artificielle utilisée est un modèle appelé LightGBM. C'est un type de modèle très efficace pour trouver des tendances dans les données. Il a été "entraîné" pour comprendre ce qui fait qu'un client reste ou part, en se basant sur des données historiques.
+L'intelligence artificielle au centre de ce projet est un modèle appelé LightGBM. C'est un type de modèle très performant, capable d'identifier des schémas complexes dans les données. Il a été "entraîné" sur un ensemble de données historiques pour apprendre ce qui caractérise un client qui reste ou un client qui part.
 
 Créer une version pour Windows (.exe) (Optionnel)
-Si vous voulez une version de l'application que vous pouvez lancer comme n'importe quel programme sur Windows (sans installer Python), vous pouvez créer un fichier .exe :
+Si vous souhaitez distribuer cette application comme un programme Windows standard (sans que les utilisateurs n'aient à installer Python), vous pouvez créer un fichier .exe :
 
 Assurez-vous d'avoir installé PyInstaller dans votre espace de travail (pip install pyinstaller).
 
@@ -101,10 +101,10 @@ pyinstaller app.py --name "ChurnPredictorApp" --onefile --add-data "templates;te
 
 (Important : Vérifiez bien le chemin de pyexpat.pyd dans la commande ci-dessus. Il doit correspondre à l'emplacement réel sur votre PC.)
 
-Un fichier ChurnPredictorApp.exe sera créé dans un dossier nommé dist/ à l'intérieur de votre projet.
+Un fichier ChurnPredictorApp.exe sera créé dans un dossier nommé dist/ à l'intérieur de votre projet, prêt à être exécuté !
 
 Contribuer au projet
-Vous avez des idées pour améliorer cet assistant ? Super ! N'hésitez pas à proposer vos changements.
+Vous avez des idées pour améliorer cet assistant, ou vous souhaitez corriger un bug ? C'est super ! N'hésitez pas à proposer vos changements.
 
 Licence
 Ce projet est sous licence MIT.
