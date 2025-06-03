@@ -1,0 +1,17 @@
+# Python
+*.pyc
+__pycache__/
+
+# Environments
+.venv/
+env/
+venv/
+
+# PyInstaller
+build/
+dist/
+*.spec
+
+# Autres fichiers/dossiers temporaires ou spécifiques
+.vscode/
+*.log

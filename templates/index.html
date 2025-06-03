@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prédiction de Churn Client</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Styles globaux pour le corps */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #FFB347, #FF8F00);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #fff;
+            overflow: auto; /* Permet un léger défilement si le contenu dépasse */
+            box-sizing: border-box;
+        }
+
+        /* Conteneur principal pour les deux colonnes (texte et formulaire) */
+        .main-content-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 50px;
+            width: 100%;
+            max-width: 1000px;
+            flex-wrap: wrap;
+        }
+
+        /* Section du texte de bienvenue/blague */
+        .text-section {
+            flex: 1;
+            min-width: 300px;
+            max-width: 450px;
+            text-align: right;
+            padding-right: 20px;
+            color: #fff;
+        }
+        .text-section h2 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            font-weight: 700;
+            line-height: 1.1;
+        }
+        .text-section p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            font-weight: 300;
+            margin-bottom: 15px;
+        }
+        .text-section span.highlight {
+            color: #fce6a8;
+            font-weight: 700;
+        }
+
+        /* Conteneur du formulaire */
+        .container {
+            background-color: #ffffff;
+            padding: 30px 50px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 450px;
+            box-sizing: border-box;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            max-height: 90vh; /* Ajusté pour laisser de l'espace pour le texte */
+            overflow-y: auto;
+            flex: 1;
+            min-width: 350px;
+        }
+
+        /* Titre du formulaire */
+        h1 {
+            font-family: 'Roboto', sans-serif;
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        /* Groupe de formulaire */
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        /* Label */
+        label {
+            font-family: 'Roboto', sans-serif;
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+            color: #555;
+            font-size: 14px;
+        }
+
+        /* Input number - cache les flèches du spinner */
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        /* Styles pour les champs d'entrée */
+        input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #777;
+            border-radius: 8px;
+            font-size: 15px;
+            box-sizing: border-box;
+            background-color: #444;
+            color: #fff;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        input::placeholder {
+            color: #bbb;
+            opacity: 0.8;
+        }
+
+        input:focus {
+            border-color: #FF8F00;
+            outline: none;
+            box-shadow: 0 0 10px rgba(255, 143, 0, 0.6);
+        }
+
+        /* Bouton de soumission */
+        button {
+            width: 100%;
+            padding: 14px;
+            background-color: #795548;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            letter-spacing: 0.5px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #5d4037;
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        /* ----------------------- STYLES DE LA MODALE (POP-UP) ----------------------- */
+        .modal-backdrop {
+            display: none; /* Caché par défaut */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* Fond sombre semi-transparent */
+            z-index: 1000; /* Assure que la modale est au-dessus de tout */
+            justify-content: center;
+            align-items: center;
+            overflow: auto; /* Permet le scroll si le contenu de la modale est grand */
+        }
+
+        .modal-content {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            color: #333;
+            animation: fadeInScale 0.3s ease-out; /* Animation d'apparition */
+            position: relative; /* Pour le bouton de fermeture */
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .modal-content h3 {
+            font-size: 2em; /* Titre de la modale */
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .modal-content p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .modal-content strong {
+            color: #e65100; /* Orange vif pour les résultats clés */
+        }
+
+        /* Bouton de fermeture de la modale */
+        .modal-close-button {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            color: #777;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+        .modal-close-button:hover {
+            color: #333;
+        }
+        /* ----------------------------------------------------------------------------- */
+
+
+        /* --- MEDIA QUERIES pour la réactivité --- */
+        @media (max-width: 850px) {
+            .main-content-wrapper {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .text-section {
+                text-align: center;
+                padding-right: 0;
+                padding-bottom: 20px;
+                max-width: 90%;
+            }
+            .text-section h2 {
+                font-size: 2.5em;
+            }
+            .text-section p {
+                font-size: 1em;
+            }
+
+            .container {
+                max-width: 90%;
+            }
+        }
+
+        @media (max-height: 700px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                max-height: 98vh;
+            }
+            h1 {
+                font-size: 22px;
+                margin-bottom: 20px;
+            }
+            .form-group {
+                margin-bottom: 15px;
+            }
+            label {
+                font-size: 13px;
+            }
+            input {
+                padding: 8px 12px;
+                font-size: 14px;
+            }
+            button {
+                padding: 12px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-content-wrapper">
+        <div class="text-section">
+            <h2>Prédisez l'avenir !</h2>
+            <p>
+                Vous avez toujours rêvé de savoir qui va dire "adieu" à vos services avant même qu'ils ne le fassent ?<br>
+                Notre IA est si pointue qu'elle pourrait presque prédire ce que vous allez manger ce soir !
+                (Mais on préfère se concentrer sur les clients, c'est plus rentable).
+                <br><br>
+                Remplissez les champs ci-contre et laissez la magie opérer. Qui sera le prochain à chercher de nouvelles aventures ?
+                Découvrez-le et <span class="highlight">agissez avant qu'il ne soit trop tard !</span>
+            </p>
+            <p>
+                *Attention : Le modèle n'est pas responsable si votre chat quitte la maison après la prédiction.* 😉
+            </p>
+        </div>
+
+        <div class="container">
+            <h1>Formulaire de Prédiction de Churn</h1>
+
+            <form id="churnPredictForm">
+                <div class="form-group">
+                    <label for="MonthlyMinutes">Minutes mensuelles :</label>
+                    <input type="number" id="MonthlyMinutes" name="MonthlyMinutes" step="0.01" required placeholder="Ex: 500.25">
+                </div>
+
+                <div class="form-group">
+                    <label for="MonthlyRevenue">Revenu mensuel :</label>
+                    <input type="number" id="MonthlyRevenue" name="MonthlyRevenue" step="0.01" required placeholder="Ex: 45.70">
+                </div>
+
+                <div class="form-group">
+                    <label for="CurrentEquipmentDays">Jours d'équipement actuel :</label>
+                    <input type="number" id="CurrentEquipmentDays" name="CurrentEquipmentDays" step="1" required placeholder="Ex: 365">
+                </div>
+
+                <div class="form-group">
+                    <label for="PercChangeMinutes">Changement % des minutes :</label>
+                    <input type="number" id="PercChangeMinutes" name="PercChangeMinutes" step="0.01" required placeholder="Ex: -10.50 (pour -10.5%)">
+                </div>
+
+                <div class="form-group">
+                    <label for="PercChangeRevenues">Changement % des revenus :</label>
+                    <input type="number" id="PercChangeRevenues" name="PercChangeRevenues" step="0.01" required placeholder="Ex: 5.20 (pour +5.2%)">
+                </div>
+
+                <button type="submit">Prédire le Churn</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="predictionModal" class="modal-backdrop">
+        <div class="modal-content">
+            <button class="modal-close-button" onclick="closeModal()">&times;</button> <h3>Résultat de la Prédiction</h3>
+            <p id="modalPredictionText"></p>
+            <p>Probabilité : <strong id="modalProbability"></strong></p>
+        </div>
+    </div>
+    <script>
+        // Fonction pour afficher la modale
+        function showModal(predictionText, probability) {
+            document.getElementById('modalPredictionText').innerHTML = `Le client a une <strong style="color: ${predictionText.includes('faible') ? '#4CAF50' : '#f44336'};">${predictionText}</strong>.`;
+            document.getElementById('modalProbability').textContent = `${probability}%`;
+            document.getElementById('predictionModal').style.display = 'flex'; // Affiche la modale
+        }
+
+        // Fonction pour cacher la modale
+        function closeModal() {
+            document.getElementById('predictionModal').style.display = 'none'; // Cache la modale
+        }
+
+        document.getElementById('churnPredictForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const form = event.target;
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams(data).toString(),
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    showModal(result.prediction_result, result.probability); // Affiche la modale avec les résultats
+                } else {
+                    // En cas d'erreur du serveur, on peut aussi afficher une modale d'erreur ou une alerte simple
+                    alert(`Erreur: ${result.prediction_result || "Une erreur inconnue est survenue."}`);
+                }
+            } catch (error) {
+                console.error('Erreur de communication avec le serveur:', error);
+                alert('Erreur de communication ! Le serveur n\'a pas répondu comme attendu.');
+            }
+        });
+
+        // Optionnel: Fermer la modale en cliquant en dehors du contenu
+        document.getElementById('predictionModal').addEventListener('click', function(event) {
+            if (event.target === this) { // Si on clique directement sur l'arrière-plan de la modale
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
